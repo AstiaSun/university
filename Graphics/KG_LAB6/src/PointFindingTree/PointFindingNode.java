@@ -3,9 +3,7 @@ package PointFindingTree;
 import java.awt.*;
 import java.util.ArrayList;
 
-/**
- * Created by anastasia on 4/12/17.
- */
+
 class PointFindingNode {
     private ArrayList<Point> bHull;
     private int height;
@@ -13,23 +11,26 @@ class PointFindingNode {
     private PointFindingNode leftChild;
     private PointFindingNode rightChild;
 
-    public PointFindingNode (PointFindingNode parent) {
+    PointFindingNode(PointFindingNode parent) {
         this.parent = parent;
         if (parent != null)
             this.height = parent.height + 1;
         else
             this.height = 0;
+        leftChild = null;
+        rightChild = null;
+        bHull = new ArrayList<>();
     }
 
-    public PointFindingNode getLeftChild() {
+    PointFindingNode getLeftChild() {
         return leftChild;
     }
 
-    public PointFindingNode getRightChild() {
+    PointFindingNode getRightChild() {
         return rightChild;
     }
 
-    public PointFindingNode getParent() {
+    PointFindingNode getParent() {
         return parent;
     }
 
@@ -39,21 +40,19 @@ class PointFindingNode {
         return parent.getParent();
     }
 
-    public boolean isLeaf() {
-        if (bHull.size() == 1)
-            return true;
-        return false;
+    boolean isLeaf() {
+        return bHull.size() <= 1;
     }
 
-    public void setLeftChild(Point point) {
-        leftChild = new PointFindingNode(this);
+    void setLeftChild(PointFindingNode node) {
+        leftChild = node;
     }
 
-    public void setRightChild(Point point) {
-        rightChild = new PointFindingNode(this);
+    void setRightChild(PointFindingNode node) {
+        rightChild = node;
     }
 
-    public void addPoint(Point p) {
-        bHull.add(p);
+    ArrayList<Point> getbHull() {
+        return bHull;
     }
 }

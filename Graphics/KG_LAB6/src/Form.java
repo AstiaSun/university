@@ -3,6 +3,7 @@ import java.awt.*;
 import java.awt.event.ActionListener;
 
 /**
+ * Main class which creates UI components
  * Created by anastasia on 4/12/17.
  */
 public class Form {

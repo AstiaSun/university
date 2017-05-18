@@ -1,3 +1,5 @@
+import common.Computations;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
@@ -5,8 +7,10 @@ import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 
 /**
+ * Drawling and mouse handling implementations
  * Created by anastasia on 4/12/17.
  */
+@SuppressWarnings("ALL")
 public class DrawArea extends JComponent{
     //.............................................VARIABLES..........................................................//
 
