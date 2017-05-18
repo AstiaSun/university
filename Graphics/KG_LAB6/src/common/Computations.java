@@ -30,5 +30,19 @@ public class Computations {
         }
         return result;
     }
+
+    public static Point findTheHighestPoint(ArrayList<Point> points) {
+        Point highest = points.get(0);
+        for (int i = 1; i < points.size(); i++) {
+            if (points.get(i).y < highest.y) {
+                highest = points.get(i);
+            }
+        }
+        return highest;
+    }
+
+    public static Edge findBaseLine(ArrayList<Point> fromArray, ArrayList<Point> toArray) {
+        return new Edge();
+    }
     
 }

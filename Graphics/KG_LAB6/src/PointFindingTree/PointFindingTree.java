@@ -1,5 +1,6 @@
 package PointFindingTree;
 import common.Computations;
+import common.Edge;
 import sun.reflect.generics.tree.Tree;
 
 import java.awt.Point;
@@ -59,7 +60,7 @@ public class PointFindingTree implements Tree {
     private void createHullForMultiplePoints(PointFindingNode currentNode) {
         PointFindingNode rightChild = currentNode.getRightChild();
         PointFindingNode leftChild = currentNode.getLeftChild();
-
+        Edge baseLine = Computations.findBaseLine(rightChild.getbHull(), leftChild.getbHull());
     }
 
     public void insert(Point point) {
