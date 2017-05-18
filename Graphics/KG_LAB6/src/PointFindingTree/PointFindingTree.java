@@ -73,10 +73,4 @@ public class PointFindingTree implements Tree {
         Computations.removeAllPointsOnLeftSide(secondBHull, baseLine.getTo());
         return Computations.merge(firstBHull, secondBHull);
     }
-
-    public void insert(Point point) {
-        PointFindingNode temp = root;
-        PointFindingNode parent = null;
-    }
-
 }
