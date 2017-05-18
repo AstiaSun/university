@@ -13,5 +13,9 @@ public class Computations {
         return ((y1 <= y) && (y < y2)) || ((y2 <= y) && (y < y1));
     }
 
+    public static boolean isPointInsideRectangle(Point point, int x, int y, int width, int height) {
+        return isBetween(point.x, x, x + width) && isBetween(point.y, y, y + height);
+    }
+
     
 }

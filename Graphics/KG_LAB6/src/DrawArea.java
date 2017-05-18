@@ -25,14 +25,13 @@ public class DrawArea extends JComponent{
 
     //.............................................PUBLIC..METHODS....................................................//
 
-    public DrawArea() {
+    DrawArea() {
         setDoubleBuffered(false);
         addMouseListener(new MouseAdapter() {
             @Override
             public void mousePressed(MouseEvent e) {
                 if (drawingMode == Mode.ADD_POINT) {
-                    points.add(e.getPoint());
-                    drawPoint(points.size() - 1);
+                   addPoint(e.getPoint());
                 } else {
                     removePoint(e.getPoint());
                 }
@@ -40,20 +39,20 @@ public class DrawArea extends JComponent{
         });
     }
 
-    public void setAddingPointsMode() {
+    void setAddingPointsMode() {
         drawingMode = Mode.ADD_POINT;
     }
 
-    public void setRemovingPointsMode() {
+    void setRemovingPointsMode() {
         drawingMode = Mode.REMOVE_POINT;
     }
 
-    public void clearData() {
+    void clearData() {
         clear();
         initialize();
     }
 
-    public void createConvexHull() {
+    void createConvexHull() {
         if (points.isEmpty()) {
             System.out.println("There are no points");
             return;
@@ -62,7 +61,6 @@ public class DrawArea extends JComponent{
         if (points.size() < 4) {
             convexHull = points;
             drawConvexHull();
-            return;
         }
     }
 
@@ -124,6 +122,14 @@ public class DrawArea extends JComponent{
         graphics2D.fillRect(0, 0, getWidth(), getHeight());
         graphics2D.setPaint(Color.BLACK);
         repaint();
+    }
+
+    private void addPoint(Point e) {
+        for (int i = 0; i < points.size(); i++) {
+            if (Computations.isBetween(e.))
+        }
+        points.add(e);
+        drawPoint(points.size() - 1);
     }
 
     private void removePoint(Point e) {
