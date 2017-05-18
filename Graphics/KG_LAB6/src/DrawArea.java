@@ -126,15 +126,26 @@ public class DrawArea extends JComponent{
 
     private void addPoint(Point e) {
         for (int i = 0; i < points.size(); i++) {
-            if (Computations.isBetween(e.))
+            Point current = points.get(i);
+            if (Computations.isPointInsideRectangle(e, current.x - PAINT_RADIUS, current.y - PAINT_RADIUS,
+                    2 * PAINT_RADIUS, 2 * PAINT_RADIUS)) {
+                return;
+            }
         }
         points.add(e);
-        drawPoint(points.size() - 1);
+        drawPoint(points.indexOf(e));
     }
 
     private void removePoint(Point e) {
         for (int i = 0; i < points.size(); i++) {
-            if ()
+            Point current = points.get(i);
+            if (Computations.isPointInsideRectangle(e, current.x - PAINT_RADIUS, current.y - PAINT_RADIUS,
+                    2 * PAINT_RADIUS, 2 * PAINT_RADIUS)) {
+                points.remove(i);
+                break;
+            }
         }
+        clear();
+        drawPoints();
     }
 }

@@ -15,13 +15,13 @@ public class Form {
 
         JPanel controls = new JPanel();
 
-        JButton newPointsButton = new JButton("New points");
         JButton addPointsButton = new JButton("Add");
         JButton removePointsButton = new JButton("Remove");
+        JButton clearButton = new JButton("Clear");
         JButton okButton = new JButton("OK");
 
         ActionListener actionListener = e -> {
-            if (e.getSource() == newPointsButton) {
+            if (e.getSource() == clearButton) {
                 drawArea.clearData();
             } else if (e.getSource() == okButton) {
                 drawArea.createConvexHull();
@@ -32,9 +32,13 @@ public class Form {
             }
         };
 
-        newPointsButton.addActionListener(actionListener);
+        addPointsButton.addActionListener(actionListener);
+        removePointsButton.addActionListener(actionListener);
+        clearButton.addActionListener(actionListener);
         okButton.addActionListener(actionListener);
-        controls.add(newPointsButton);
+        controls.add(addPointsButton);
+        controls.add(removePointsButton);
+        controls.add(clearButton);
         controls.add(okButton);
         content.add(controls, BorderLayout.NORTH);
 
