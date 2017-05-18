@@ -4,6 +4,7 @@ import java.awt.*;
 import java.util.ArrayList;
 
 
+@SuppressWarnings("ALL")
 public class Computations {
     public static boolean isOnTheLeftSide(Point vectorA, Point vectorB) {
         int res = vectorA.x * vectorB.y - vectorA.y * vectorB.x;
@@ -42,7 +43,68 @@ public class Computations {
     }
 
     public static Edge findBaseLine(ArrayList<Point> fromArray, ArrayList<Point> toArray) {
-        return new Edge();
+        Edge baseLine = createEdge(findTheHighestPoint(fromArray), findTheHighestPoint(toArray));
+
+        for (;;) {
+            ArrayList<Point> pointsOnTheRightSideInFromArray = findPointsOnTheRightSideToArray(baseLine, fromArray);
+            ArrayList<Point> pointsOnTheRightSideInToArray = findPointsOnTheRightSideToArray(baseLine, toArray);
+
+            if (!pointsOnTheRightSideInFromArray.isEmpty()) {
+                Point highest = findTheHighestPoint(pointsOnTheRightSideInFromArray);
+                baseLine.setFrom(highest);
+            }
+            if (!pointsOnTheRightSideInToArray.isEmpty()) {
+                Point highest = findTheHighestPoint(pointsOnTheRightSideInToArray);
+                baseLine.setTo(highest);
+            }
+            if (pointsOnTheRightSideInFromArray.isEmpty() && pointsOnTheRightSideInToArray.isEmpty()) {
+                break;
+            }
+        }
+        return baseLine;
     }
-    
+
+    private static ArrayList<Point> findPointsOnTheRightSideToArray(Edge baseLine, ArrayList<Point> array) {
+        ArrayList<Point> pointsOnTheRightSide = new ArrayList<>();
+        for (int i = 0; i < array.size(); i++) {
+            if (!isOnTheLeftSide(createVector(baseLine.getFrom(), array.get(i)),
+                    createVector(baseLine.getFrom(), baseLine.getTo()))) {
+                pointsOnTheRightSide.add(array.get(i));
+            }
+        }
+        return pointsOnTheRightSide;
+    }
+
+    private static Point createVector(Point from, Point to) {
+        return new Point(to.x - from.x, from.y - to.y);
+    }
+
+    private static Edge createEdge(Point from, Point to) {
+        Edge edge = new Edge();
+        edge.setFrom(from);
+        edge.setTo(to);
+        return edge;
+    }
+
+    public static void removeAllPointsOnRightSide(ArrayList<Point> points, Point splittingPoint) {
+        int splittingPointIndex = points.indexOf(splittingPoint);
+        for (int i = splittingPointIndex + 1; i < points.size(); i++) {
+            points.remove(i);
+        }
+    }
+
+    public static void removeAllPointsOnLeftSide(ArrayList<Point> points, Point splittingPoint) {
+        int splittingPointIndex = points.indexOf(splittingPoint);
+        for (int i = 0; i < splittingPointIndex; i++) {
+            points.remove(i);
+        }
+    }
+
+    public static ArrayList<Point> merge(ArrayList<Point> first, ArrayList<Point> second) {
+        ArrayList<Point> result = new ArrayList<>(first);
+        for (int i = 0; i < second.size(); i++) {
+            result.add(second.get(i));
+        }
+        return result;
+    }
 }

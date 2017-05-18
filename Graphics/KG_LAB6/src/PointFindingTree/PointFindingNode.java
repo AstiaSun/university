@@ -6,6 +6,7 @@ import java.util.ArrayList;
 
 class PointFindingNode {
     private ArrayList<Point> bHull;
+    private ArrayList<Point> pointsRemoved;
     private int height;
     private PointFindingNode parent;
     private PointFindingNode leftChild;
@@ -20,6 +21,7 @@ class PointFindingNode {
         leftChild = null;
         rightChild = null;
         bHull = new ArrayList<>();
+        pointsRemoved = new ArrayList<>();
     }
 
     PointFindingNode getLeftChild() {
@@ -54,5 +56,17 @@ class PointFindingNode {
 
     ArrayList<Point> getbHull() {
         return bHull;
+    }
+
+    void setbHull(ArrayList<Point> points) {
+        bHull = points;
+    }
+
+    public ArrayList<Point> getPointsRemoved() {
+        return pointsRemoved;
+    }
+
+    public void setPointsRemoved(ArrayList<Point> pointsRemoved) {
+        this.pointsRemoved = pointsRemoved;
     }
 }

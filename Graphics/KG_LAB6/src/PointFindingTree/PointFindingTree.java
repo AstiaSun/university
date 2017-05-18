@@ -50,8 +50,10 @@ public class PointFindingTree implements Tree {
         PointFindingNode rightChild = currentNode.getRightChild();
         PointFindingNode leftChild = currentNode.getLeftChild();
         if (leftChild.isLeaf() && rightChild.isLeaf()) {
-            currentNode.getbHull().add(leftChild.getbHull().get(0));
-            currentNode.getbHull().add(rightChild.getbHull().get(0));
+            currentNode.getbHull()
+                    .add(leftChild.getbHull().get(0));
+            currentNode.getbHull()
+                    .add(rightChild.getbHull().get(0));
         } else {
             createHullForMultiplePoints(currentNode);
         }
@@ -60,7 +62,16 @@ public class PointFindingTree implements Tree {
     private void createHullForMultiplePoints(PointFindingNode currentNode) {
         PointFindingNode rightChild = currentNode.getRightChild();
         PointFindingNode leftChild = currentNode.getLeftChild();
+        currentNode.setbHull(createBHullFromChildren(rightChild, leftChild));
+    }
+
+    private ArrayList<Point> createBHullFromChildren(PointFindingNode rightChild, PointFindingNode leftChild) {
         Edge baseLine = Computations.findBaseLine(rightChild.getbHull(), leftChild.getbHull());
+        ArrayList<Point> firstBHull = rightChild.getbHull();
+        Computations.removeAllPointsOnRightSide(firstBHull, baseLine.getFrom());
+        ArrayList<Point> secondBHull = leftChild.getbHull();
+        Computations.removeAllPointsOnLeftSide(secondBHull, baseLine.getTo());
+        return Computations.merge(firstBHull, secondBHull);
     }
 
     public void insert(Point point) {
