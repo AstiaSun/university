@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="war" name="Graph3D:war">
+    <output-path>$PROJECT_DIR$/target</output-path>
+    <root id="archive" name="Graph.war">
+      <element id="artifact" artifact-name="Graph3D:war exploded" />
+    </root>
+  </artifact>
+</component>
