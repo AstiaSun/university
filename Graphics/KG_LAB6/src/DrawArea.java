@@ -120,7 +120,7 @@ public class DrawArea extends JComponent{
         clear();
         drawPoints();
         graphics2D.setPaint(Color.GREEN);
-        for (int i = 0; i < convexHull.size(); i++) {
+        for (int i = 0; i < convexHull.size() - 1; i++) {
             drawPoint(convexHull.get(i));
             drawLine(convexHull.get(i), convexHull.get((i + 1) % convexHull.size()));
         }

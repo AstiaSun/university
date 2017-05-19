@@ -17,17 +17,8 @@ public class PointFindingTree implements Tree {
 
     public void build(ArrayList<Point> points) {
         pointsSortedByAxis = Computations.sortByAxis(points);
-        print(pointsSortedByAxis);
-        print(points);
         root = new PointFindingNode(null);
         recursiveBuild(root, 0, pointsSortedByAxis.size());
-    }
-
-    private void print(ArrayList<Point> points) {
-        for (Point point : points) {
-            System.out.print(point + "\t");
-        }
-        System.out.println();
     }
 
     private void recursiveBuild(PointFindingNode currentNode, int from, int to) {
@@ -77,10 +68,10 @@ public class PointFindingTree implements Tree {
     }
 
     private ArrayList<Point> createBHullFromChildren(PointFindingNode rightChild, PointFindingNode leftChild) {
-        Edge baseLine = Computations.findBaseLine(rightChild.getbHull(), leftChild.getbHull());
-        ArrayList<Point> firstBHull = rightChild.getbHull();
+        Edge baseLine = Computations.findBaseLine(leftChild.getbHull(), rightChild.getbHull());
+        ArrayList<Point> firstBHull = leftChild.getbHull();
         Computations.removeAllPointsOnRightSide(firstBHull, baseLine.getFrom());
-        ArrayList<Point> secondBHull = leftChild.getbHull();
+        ArrayList<Point> secondBHull = rightChild.getbHull();
         Computations.removeAllPointsOnLeftSide(secondBHull, baseLine.getTo());
         return Computations.merge(firstBHull, secondBHull);
     }

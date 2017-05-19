@@ -55,16 +55,13 @@ public class Computations {
         Edge baseLine = createEdge(findTheHighestPoint(fromArray), findTheHighestPoint(toArray));
 
         for (;;) {
-            ArrayList<Point> pointsOnTheRightSideInFromArray = findPointsOnTheRightSideToArray(baseLine, fromArray);
-            ArrayList<Point> pointsOnTheRightSideInToArray = findPointsOnTheRightSideToArray(baseLine, toArray);
-
+            ArrayList<Point> pointsOnTheRightSideInFromArray = findPointsOnTheRightSide(baseLine, fromArray);
+            ArrayList<Point> pointsOnTheRightSideInToArray = findPointsOnTheRightSide(baseLine, toArray);
             if (!pointsOnTheRightSideInFromArray.isEmpty()) {
-                Point highest = findTheHighestPoint(pointsOnTheRightSideInFromArray);
-                baseLine.setFrom(highest);
+                baseLine.setFrom(pointsOnTheRightSideInFromArray.get(0));
             }
             if (!pointsOnTheRightSideInToArray.isEmpty()) {
-                Point highest = findTheHighestPoint(pointsOnTheRightSideInToArray);
-                baseLine.setTo(highest);
+                baseLine.setTo(pointsOnTheRightSideInToArray.get(0));
             }
             if (pointsOnTheRightSideInFromArray.isEmpty() && pointsOnTheRightSideInToArray.isEmpty()) {
                 break;
@@ -73,12 +70,12 @@ public class Computations {
         return baseLine;
     }
 
-    private static ArrayList<Point> findPointsOnTheRightSideToArray(Edge baseLine, ArrayList<Point> array) {
+    private static ArrayList<Point> findPointsOnTheRightSide(Edge baseLine, ArrayList<Point> array) {
         ArrayList<Point> pointsOnTheRightSide = new ArrayList<>();
-        for (Point anArray : array) {
-            if (!isOnTheLeftSide(createVector(baseLine.getFrom(), anArray),
-                    createVector(baseLine.getFrom(), baseLine.getTo()))) {
-                pointsOnTheRightSide.add(anArray);
+        for (Point point : array) {
+            if ((baseLine.getFrom() != point) && (baseLine.getTo() != point) && !isOnTheLeftSide (
+                    createVector(baseLine.getFrom(), point), createVector(baseLine.getFrom(), baseLine.getTo()))) {
+                pointsOnTheRightSide.add(point);
             }
         }
         return pointsOnTheRightSide;
@@ -115,5 +112,12 @@ public class Computations {
             result.add(aSecond);
         }
         return result;
+    }
+
+    public static void print(ArrayList<Point> points) {
+        for (Point point : points) {
+            System.out.print(point + "\t");
+        }
+        System.out.println();
     }
 }

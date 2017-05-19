@@ -43,7 +43,7 @@ class PointFindingNode {
     }
 
     boolean isLeaf() {
-        return bHull.size() <= 1;
+        return (leftChild == null) && (rightChild == null);
     }
 
     void setLeftChild(PointFindingNode node) {
