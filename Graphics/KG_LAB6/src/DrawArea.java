@@ -95,12 +95,12 @@ public class DrawArea extends JComponent{
     }
 
     private void drawPoint(Point e) {
-        graphics2D.fillOval(e.x, e.y, PAINT_RADIUS, PAINT_RADIUS);
+        graphics2D.fillOval(e.x - PAINT_RADIUS / 2, e.y - PAINT_RADIUS / 2, PAINT_RADIUS, PAINT_RADIUS);
         repaint();
     }
 
     private void drawPoint(Integer i) {
-        graphics2D.fillOval(points.get(i).x, points.get(i).y, PAINT_RADIUS, PAINT_RADIUS);
+        graphics2D.fillOval(points.get(i).x - PAINT_RADIUS / 2, points.get(i).y - PAINT_RADIUS / 2, PAINT_RADIUS, PAINT_RADIUS);
         graphics2D.drawString(Integer.toString(i), points.get(i).x, points.get(i).y);
         repaint();
     }
@@ -124,6 +124,7 @@ public class DrawArea extends JComponent{
             drawPoint(convexHull.get(i));
             drawLine(convexHull.get(i), convexHull.get((i + 1) % convexHull.size()));
         }
+        drawPoint(convexHull.get(convexHull.size() - 1));
         graphics2D.setPaint(Color.BLACK);
         repaint();
     }
