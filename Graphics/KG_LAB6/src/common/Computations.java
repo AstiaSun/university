@@ -20,7 +20,7 @@ public class Computations {
     }
 
     public static ArrayList<Point> sortByAxis(ArrayList<Point> points) {
-        ArrayList<Point> result = (ArrayList<Point>) points.subList(0, points.size());
+        ArrayList<Point> result = clone(points);
         for (int i = 0; i < points.size(); i++) {
             for (int j = i + 1; j < points.size(); j++) {
                 if (points.get(i).x > points.get(j).x) {
@@ -28,6 +28,15 @@ public class Computations {
                     result.set(j, points.get(i));
                 }
             }
+        }
+        return result;
+    }
+
+    private static ArrayList<Point> clone(ArrayList<Point> points) {
+        ArrayList<Point> result = new ArrayList<>();
+        for (Point point :
+                points) {
+            result.add(point);
         }
         return result;
     }

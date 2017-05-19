@@ -24,7 +24,7 @@ public class PointFindingTree implements Tree {
     private void recursiveBuild(PointFindingNode currentNode, int from, int to) {
         if (from + 2 >= to) {
             currentNode.setLeftChild(createLeaf(pointsSortedByAxis.get(from), currentNode));
-            if (from + 1 != to) {
+            if (from + 1 < to) {
                 currentNode.setRightChild(createLeaf(pointsSortedByAxis.get(from + 1), currentNode));
             }
         } else {
@@ -49,11 +49,13 @@ public class PointFindingTree implements Tree {
     private void createHull(PointFindingNode currentNode) {
         PointFindingNode rightChild = currentNode.getRightChild();
         PointFindingNode leftChild = currentNode.getLeftChild();
-        if (leftChild.isLeaf() && rightChild.isLeaf()) {
+        if (leftChild.isLeaf()) {
             currentNode.getbHull()
                     .add(leftChild.getbHull().get(0));
-            currentNode.getbHull()
-                    .add(rightChild.getbHull().get(0));
+            if((rightChild != null) &&(rightChild.isLeaf())) {
+                currentNode.getbHull()
+                        .add(rightChild.getbHull().get(0));
+            }
         } else {
             createHullForMultiplePoints(currentNode);
         }
@@ -72,5 +74,9 @@ public class PointFindingTree implements Tree {
         ArrayList<Point> secondBHull = leftChild.getbHull();
         Computations.removeAllPointsOnLeftSide(secondBHull, baseLine.getTo());
         return Computations.merge(firstBHull, secondBHull);
+    }
+
+    public ArrayList<Point> getConvexHull() {
+        return root.getbHull();
     }
 }

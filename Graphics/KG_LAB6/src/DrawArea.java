@@ -16,6 +16,7 @@ public class DrawArea extends JComponent{
 
     private ArrayList<Point> points;
     private ArrayList<Point> convexHull;
+    private ConvexHullSupport convexHullSupport;
 
     private Image image;
     private Graphics2D graphics2D;
@@ -65,7 +66,12 @@ public class DrawArea extends JComponent{
         if (points.size() < 4) {
             convexHull = points;
             drawConvexHull();
+            return;
         }
+
+        convexHullSupport.buildTree(points);
+        convexHull = convexHullSupport.getConvexHull();
+        drawConvexHull();
     }
 
     //.............................................PRIVATE..METHODS...................................................//
@@ -85,6 +91,7 @@ public class DrawArea extends JComponent{
         points = new ArrayList<>();
         graphics2D.setPaint(Color.black);
         drawingMode = Mode.ADD_POINT;
+        convexHullSupport = new ConvexHullSupport();
     }
 
     private void drawPoint(Point e) {
