@@ -4,7 +4,6 @@ import java.awt.*;
 import java.util.ArrayList;
 
 
-@SuppressWarnings("ALL")
 public class Computations {
     public static boolean isOnTheLeftSide(Point vectorA, Point vectorB) {
         int res = vectorA.x * vectorB.y - vectorA.y * vectorB.x;
@@ -23,9 +22,10 @@ public class Computations {
         ArrayList<Point> result = clone(points);
         for (int i = 0; i < points.size(); i++) {
             for (int j = i + 1; j < points.size(); j++) {
-                if (points.get(i).x > points.get(j).x) {
-                    result.set(i, points.get(j));
-                    result.set(j, points.get(i));
+                if (result.get(i).x > result.get(j).x) {
+                    Point temp = result.get(i);
+                    result.set(i, result.get(j));
+                    result.set(j, temp);
                 }
             }
         }
@@ -75,10 +75,10 @@ public class Computations {
 
     private static ArrayList<Point> findPointsOnTheRightSideToArray(Edge baseLine, ArrayList<Point> array) {
         ArrayList<Point> pointsOnTheRightSide = new ArrayList<>();
-        for (int i = 0; i < array.size(); i++) {
-            if (!isOnTheLeftSide(createVector(baseLine.getFrom(), array.get(i)),
+        for (Point anArray : array) {
+            if (!isOnTheLeftSide(createVector(baseLine.getFrom(), anArray),
                     createVector(baseLine.getFrom(), baseLine.getTo()))) {
-                pointsOnTheRightSide.add(array.get(i));
+                pointsOnTheRightSide.add(anArray);
             }
         }
         return pointsOnTheRightSide;
@@ -111,8 +111,8 @@ public class Computations {
 
     public static ArrayList<Point> merge(ArrayList<Point> first, ArrayList<Point> second) {
         ArrayList<Point> result = new ArrayList<>(first);
-        for (int i = 0; i < second.size(); i++) {
-            result.add(second.get(i));
+        for (Point aSecond : second) {
+            result.add(aSecond);
         }
         return result;
     }
