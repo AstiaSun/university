@@ -8,6 +8,7 @@ class PointFindingNode {
     private ArrayList<Point> bHull;
     private ArrayList<Point> pointsRemoved;
     private int height;
+    private int id;
     private PointFindingNode parent;
     private PointFindingNode leftChild;
     private PointFindingNode rightChild;
@@ -68,5 +69,13 @@ class PointFindingNode {
 
     public void setPointsRemoved(ArrayList<Point> pointsRemoved) {
         this.pointsRemoved = pointsRemoved;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 }
