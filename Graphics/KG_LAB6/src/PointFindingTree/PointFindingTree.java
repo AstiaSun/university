@@ -3,7 +3,7 @@ import common.Computations;
 import common.Edge;
 import sun.reflect.generics.tree.Tree;
 
-import java.awt.Point;
+import java.awt.*;
 import java.util.ArrayList;
 
 /**
@@ -69,14 +69,33 @@ public class PointFindingTree implements Tree {
 
     private ArrayList<Point> createBHullFromChildren(PointFindingNode rightChild, PointFindingNode leftChild) {
         Edge baseLine = Computations.findBaseLine(leftChild.getbHull(), rightChild.getbHull());
-        ArrayList<Point> firstBHull = leftChild.getbHull();
+        ArrayList<Point> firstBHull = Computations.clone(leftChild.getbHull());
         Computations.removeAllPointsOnRightSide(firstBHull, baseLine.getFrom());
-        ArrayList<Point> secondBHull = rightChild.getbHull();
+        ArrayList<Point> secondBHull = Computations.clone(rightChild.getbHull());
         Computations.removeAllPointsOnLeftSide(secondBHull, baseLine.getTo());
         return Computations.merge(firstBHull, secondBHull);
     }
 
     public ArrayList<Point> getConvexHull() {
         return root.getbHull();
+    }
+
+    public void drawTree(Graphics2D graphics2D) {
+        drawTreeRecursive(root.getLeftChild(), graphics2D);
+        drawTreeRecursive(root.getRightChild(), graphics2D);
+    }
+
+    private void drawTreeRecursive(PointFindingNode findingNode, Graphics2D graphics2D) {
+        for (int i = 0; i < findingNode.getbHull().size() - 1; i++) {
+            Point from = findingNode.getbHull().get(i);
+            Point to = findingNode.getbHull().get(i + 1);
+            graphics2D.drawLine(from.x, from.y, to.x, to.y);
+        }
+        if ((findingNode.getLeftChild() != null) && !findingNode.getLeftChild().isLeaf()) {
+            drawTreeRecursive(findingNode.getLeftChild(), graphics2D);
+        }
+        if ((findingNode.getRightChild() != null) && !findingNode.getRightChild().isLeaf()) {
+            drawTreeRecursive(findingNode.getRightChild(), graphics2D);
+        }
     }
 }

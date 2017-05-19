@@ -32,7 +32,7 @@ public class Computations {
         return result;
     }
 
-    private static ArrayList<Point> clone(ArrayList<Point> points) {
+    public static ArrayList<Point> clone(ArrayList<Point> points) {
         ArrayList<Point> result = new ArrayList<>();
         for (Point point :
                 points) {
@@ -95,14 +95,14 @@ public class Computations {
     public static void removeAllPointsOnRightSide(ArrayList<Point> points, Point splittingPoint) {
         int splittingPointIndex = points.indexOf(splittingPoint);
         for (int i = splittingPointIndex + 1; i < points.size(); i++) {
-            points.remove(i);
+            points.remove(points.size() - 1);
         }
     }
 
     public static void removeAllPointsOnLeftSide(ArrayList<Point> points, Point splittingPoint) {
         int splittingPointIndex = points.indexOf(splittingPoint);
         for (int i = 0; i < splittingPointIndex; i++) {
-            points.remove(i);
+            points.remove(0);
         }
     }
 

@@ -1,3 +1,4 @@
+import PointFindingTree.PointFindingTree;
 import common.Computations;
 
 import javax.swing.*;
@@ -16,7 +17,7 @@ public class DrawArea extends JComponent{
 
     private ArrayList<Point> points;
     private ArrayList<Point> convexHull;
-    private ConvexHullSupport convexHullSupport;
+    private PointFindingTree tree;
 
     private Image image;
     private Graphics2D graphics2D;
@@ -69,8 +70,10 @@ public class DrawArea extends JComponent{
             return;
         }
 
-        convexHullSupport.buildTree(points);
-        convexHull = convexHullSupport.getConvexHull();
+        buildTree(points);
+        convexHull = tree.getConvexHull();
+        clear();
+        tree.drawTree(graphics2D);
         drawConvexHull();
     }
 
@@ -91,7 +94,7 @@ public class DrawArea extends JComponent{
         points = new ArrayList<>();
         graphics2D.setPaint(Color.black);
         drawingMode = Mode.ADD_POINT;
-        convexHullSupport = new ConvexHullSupport();
+        tree = new PointFindingTree();
     }
 
     private void drawPoint(Point e) {
@@ -117,7 +120,6 @@ public class DrawArea extends JComponent{
     }
 
     private void drawConvexHull() {
-        clear();
         drawPoints();
         graphics2D.setPaint(Color.GREEN);
         for (int i = 0; i < convexHull.size() - 1; i++) {
@@ -159,5 +161,10 @@ public class DrawArea extends JComponent{
         }
         clear();
         drawPoints();
+    }
+
+    private void buildTree(ArrayList<Point> points) {
+        tree = new PointFindingTree();
+        tree.build(points);
     }
 }
