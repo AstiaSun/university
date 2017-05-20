@@ -52,4 +52,14 @@ public class TestBinaryTree extends TestCase{
         previousArches = getArchesFromTreeStructure(node.getLeftChild(), previousArches);
         return  getArchesFromTreeStructure(node.getRightChild(), previousArches);
     }
+
+    public void testUpdate() {
+        for(int i = 0; i < 3; i++){
+            addArch();
+        }
+        ArrayList<Arch> arches = tree.getArches();
+        tree.update(arches.get(0).getNodeEvent().getSite().y);
+        assertNotNull(tree.getArches());
+        assertNotSame(tree.getArches(), arches);
+    }
 }
