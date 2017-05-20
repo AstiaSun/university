@@ -6,4 +6,8 @@ package VoronnoiDiagram;
  * Created by anastasia on 5/20/17.
  */
 class SiteEvent extends Event{
+    @Override
+    void process() {
+
+    }
 }
