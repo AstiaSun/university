@@ -16,8 +16,16 @@ public abstract class BinaryTreeNode {
         leftChild = null;
     }
 
+    private boolean isRightChildExist() {
+        return rightChild != null;
+    }
+
+    private boolean isLeftChildExist() {
+        return leftChild != null;
+    }
+
     private boolean isLeaf() {
-        return (rightChild != null) && (leftChild != null);
+        return isRightChildExist() && isLeftChildExist();
     }
 
     public BinaryTreeNode getRightChild() {
@@ -41,6 +49,7 @@ public abstract class BinaryTreeNode {
     public abstract boolean isBreakpoint();
 
     public boolean isBreakPointOwner() {
-        return !isLeaf() && rightChild.isBreakpoint() && leftChild.isBreakpoint();
+        return isRightChildExist() && rightChild.isBreakpoint() &&
+                isLeftChildExist() && leftChild.isBreakpoint();
     }
 }

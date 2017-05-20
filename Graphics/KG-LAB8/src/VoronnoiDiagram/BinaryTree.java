@@ -6,4 +6,9 @@ package VoronnoiDiagram;
  * Created by anastasia on 5/20/17.
  */
 class BinaryTree {
+    private BinaryTreeNode root;
+
+    BinaryTree() {
+        root = new Breakpoint();
+    }
 }

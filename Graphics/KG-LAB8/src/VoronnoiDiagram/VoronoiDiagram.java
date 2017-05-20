@@ -1,6 +1,6 @@
 package VoronnoiDiagram;
 
-import common.Polygon;
+import common.Edge;
 
 import java.awt.*;
 import java.util.ArrayList;
@@ -8,10 +8,9 @@ import java.util.Comparator;
 import java.util.PriorityQueue;
 
 public class VoronoiDiagram {
-    private ArrayList<Polygon> polygons;
+    private ArrayList<Edge> edges;
     private PriorityQueue<Event> events;
     private BinaryTree front;
-    private ArrayList<Breakpoint> edges;
 
     public void build(ArrayList<Point> sites) {
         initialize(sites);
@@ -23,10 +22,12 @@ public class VoronoiDiagram {
                 processCircleEvent(current);
             }
         }
+        finishAllEdges();
     }
 
     private void initialize(ArrayList<Point> sites) {
         createEventPriorityQueue(sites);
+        front = new BinaryTree();
     }
 
     private void createEventPriorityQueue(ArrayList<Point> sites) {
@@ -45,8 +46,12 @@ public class VoronoiDiagram {
 
     }
 
-    public ArrayList<Polygon> getPolygons() {
-        return polygons;
+    private void finishAllEdges() {
+
+    }
+
+    public ArrayList<Edge> getEdges() {
+        return edges;
     }
 
     private class EventComparator implements Comparator<Event> {
