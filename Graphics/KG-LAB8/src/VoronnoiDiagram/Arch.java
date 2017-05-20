@@ -26,41 +26,80 @@ public class Arch extends BinaryTreeNode{
 
     void update(Arch leftArch, Arch rightArch, int sweepLine) {
         currentSweepLine = sweepLine;
-        if ((leftArch == null) && (rightArch == null)) {
-            setLeftBreakPoint(0);
-            setRightBreakPoint(0);
-        } else {
-            setLeftBreakPoint(0);
-
-        }
-
-        if (currentSweepLine == getNodeEvent().getSite().y) {
-            initializeBreakPoints(leftArch, rightArch);
-        } else {
-            updateBreakPoints(leftArch, rightArch);
-        }
-
+        Point[] intersectionsWithLeftArch = findBreakPoints(leftArch);
+        Point[] intersectionsWithRightArch = findBreakPoints(rightArch);
+        updateBreakPoints(intersectionsWithLeftArch, intersectionsWithRightArch);
     }
 
-    private void updateBreakPoints(Arch leftArch, Arch rightArch) {
-        if (leftBreakPoint == null) {
-
-            setLeftBreakPoint(0);
-            setRightBreakPoint(0);
+    private void updateBreakPoints(Point[] intersectionsWithLeftArch, Point[] intersectionsWithRightArch) {
+        if (intersectionsWithLeftArch == null) {
+            if(intersectionsWithRightArch == null) {
+                intersectWithZero();
+            } else {
+                intersectWithRightArch(intersectionsWithRightArch);
+            }
         } else {
-            setLeftBreakPoint(leftBreakPoint.y);
-            setRightBreakPoint(rightBreakPoint.y);
+            if(intersectionsWithRightArch == null) {
+                intersectWithLeftArch(intersectionsWithLeftArch);
+            } else {
+                intersectWithBothArches(intersectionsWithLeftArch, intersectionsWithRightArch);
+            }
         }
     }
 
-    private void setLeftBreakPoint(int y) {
-        int[] x = x(y);
-        leftBreakPoint = new Point(x[0], y);
+    private void intersectWithZero() {
+        setLeftBreakPointAtZero();
+        setRightBreakPointAtZero();
     }
 
-    private void setRightBreakPoint(int y) {
-        int[] x = x(rightBreakPoint.y);
-        rightBreakPoint = new Point(x[1], rightBreakPoint.y);
+    private void intersectWithRightArch(Point[] intersectionsWithRightArch) {
+        if ((intersectionsWithRightArch[0].y > 0) &&
+                (intersectionsWithRightArch[0].x < getNodeEvent().getSite().x)){
+            leftBreakPoint = intersectionsWithRightArch[0];
+            rightBreakPoint = intersectionsWithRightArch[1];
+        } else {
+            setLeftBreakPointAtZero();
+            rightBreakPoint = intersectionsWithRightArch[0];
+        }
+    }
+
+    private void intersectWithLeftArch(Point[] intersectionsWithLeftArch) {
+        if ((intersectionsWithLeftArch[0].y > 0) &&
+                (intersectionsWithLeftArch[1].x > getNodeEvent().getSite().x)){
+            leftBreakPoint = intersectionsWithLeftArch[1];
+            rightBreakPoint = intersectionsWithLeftArch[0];
+        } else {
+            leftBreakPoint = intersectionsWithLeftArch[1];
+            setRightBreakPointAtZero();
+        }
+    }
+
+    private void intersectWithBothArches(Point[] intersectionsWithLeftArch, Point[] intersectionsWithRightArch) {
+        if ((intersectionsWithRightArch[0].y > 0) &&
+                (intersectionsWithRightArch[0].x < getNodeEvent().getSite().x) &&
+                (intersectionsWithLeftArch[1].y > intersectionsWithRightArch[0].y)) {
+            leftBreakPoint = intersectionsWithRightArch[0];
+        } else {
+            leftBreakPoint = intersectionsWithLeftArch[1];
+        }
+
+        if ((intersectionsWithLeftArch[0].y > 0) &&
+                (intersectionsWithLeftArch[1].x > getNodeEvent().getSite().x) &&
+                (intersectionsWithLeftArch[1].y > intersectionsWithRightArch[0].y)) {
+            rightBreakPoint = intersectionsWithLeftArch[1];
+        } else {
+            rightBreakPoint = intersectionsWithRightArch[0];
+        }
+    }
+
+    private void setLeftBreakPointAtZero() {
+        int[] x = x(0);
+        leftBreakPoint = new Point(x[0], 0);
+    }
+
+    private void setRightBreakPointAtZero() {
+        int[] x = x(0);
+        rightBreakPoint = new Point(x[1], 0);
     }
 
 
@@ -74,17 +113,19 @@ public class Arch extends BinaryTreeNode{
         return x;
     }
 
-    private Point findLeftBreakPoint(Arch arch, int sweepLine) {
+    private Point[] findBreakPoints(Arch arch) {
+        if (arch == null)
+            return null;
         int[] x = findIntersectionAbscissa(arch.getNodeEvent().getSite());
-        if (x != null) {
-            Point leftBeakPoint = new Point();
+        if ((x != null) && (x[1] > 0)) {
+            Point[] breakpoints = new Point[x.length];
             int[] y = computeArray(x);
+            for (int i = 0; i < x.length; i++) {
+                breakpoints[i] = new Point(x[i], y[i]);
+            }
+            return breakpoints;
         }
         return null;
-    }
-
-    private Point findRightBreakPoint(Arch arch) {
-        return new Point();
     }
 
     private int[] findIntersectionAbscissa(Point secondFocus) {
