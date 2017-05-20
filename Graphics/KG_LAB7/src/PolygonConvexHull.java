@@ -27,7 +27,7 @@ public class PolygonConvexHull {
     public void compute() {
         Edge splittingEdge = Computations.findSplittingEdge(polygon.getPoints());
         ArrayList<Point> upperPart = getUpperPart(splittingEdge);
-        ArrayList<Point> lowerPart = getLowerPoints(splittingEdge);
+        ArrayList<Point> lowerPart = getLowerPart(splittingEdge);
         convexHull = buildUpperPart(upperPart);
         lowerPart = buildLowerPart(lowerPart);
         convexHull = Computations.merge(convexHull, lowerPart);
@@ -42,7 +42,7 @@ public class PolygonConvexHull {
         return upperPart;
     }
 
-    private ArrayList<Point> getLowerPoints(Edge splittingEdge) {
+    private ArrayList<Point> getLowerPart(Edge splittingEdge) {
         ArrayList<Point> upperPart = new ArrayList<>();
         for (int i = polygon.getPoints().indexOf(splittingEdge.getTo());
              i != polygon.getPoints().indexOf(splittingEdge.getFrom()) + 1; i = (i + 1) % polygon.getPoints().size()) {
