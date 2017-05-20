@@ -158,8 +158,4 @@ public class Arch extends BinaryTreeNode{
         return (int) ((Math.pow(x - focus.x, 2) + Math.pow(focus.y, 2) + Math.pow(currentSweepLine, 2)) /
                         (2 * (focus.y - currentSweepLine)));
     }
-
-    private void initializeBreakPoints(Arch leftArch, Arch rightArch) {
-
-    }
 }
