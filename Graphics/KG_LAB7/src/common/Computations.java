@@ -80,7 +80,8 @@ public class Computations {
     public static ArrayList<Point> merge(ArrayList<Point> first, ArrayList<Point> second) {
         ArrayList<Point> result = new ArrayList<>(first);
         for (Point aSecond : second) {
-            result.add(aSecond);
+            if (!result.contains(aSecond))
+                result.add(aSecond);
         }
         return result;
     }
@@ -101,8 +102,8 @@ public class Computations {
 
     public static ArrayList<Point> reverse(ArrayList<Point> points) {
         ArrayList<Point> reversed = new ArrayList<>();
-        for (int i = 0; i < points.size(); i++) {
-            reversed.add(points.get(points.size() - i - 1));
+        for (int i = 1; i <= points.size(); i++) {
+            reversed.add(points.get(points.size() - i));
         }
         return reversed;
     }

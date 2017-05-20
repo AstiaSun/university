@@ -97,7 +97,7 @@ public class DrawArea extends JComponent{
     }
 
     private void drawPoint(Point e) {
-        graphics2D.fillOval(e.x, e.y, PAINT_RADIUS, PAINT_RADIUS);
+        graphics2D.fillOval(e.x - PAINT_RADIUS / 2, e.y - PAINT_RADIUS / 2, PAINT_RADIUS, PAINT_RADIUS);
         repaint();
     }
 
@@ -122,9 +122,9 @@ public class DrawArea extends JComponent{
 
     private void drawConvexHull() {
         clear();
-        drawPoints();
+        drawPolygon();
         graphics2D.setPaint(Color.GREEN);
-        for (int i = 0; i < convexHull.size() - 1; i++) {
+        for (int i = 0; i < convexHull.size(); i++) {
             drawPoint(convexHull.get(i));
             drawLine(convexHull.get(i), convexHull.get((i + 1) % convexHull.size()));
         }
