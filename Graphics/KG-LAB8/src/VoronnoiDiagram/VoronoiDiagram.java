@@ -39,7 +39,7 @@ public class VoronoiDiagram {
     }
 
     private void processSiteEvent(Event event) {
-
+        front.addArch(event);
     }
 
     private void processCircleEvent(Event event) {

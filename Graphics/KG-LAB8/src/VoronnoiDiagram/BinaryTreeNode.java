@@ -10,17 +10,24 @@ package VoronnoiDiagram;
 public abstract class BinaryTreeNode {
     private BinaryTreeNode rightChild;
     private BinaryTreeNode leftChild;
+    private BinaryTreeNode parent;
+    private Event nodeEvent;
 
     BinaryTreeNode() {
         rightChild = null;
         leftChild = null;
+        parent = null;
     }
 
-    private boolean isRightChildExist() {
+    BinaryTreeNode(BinaryTreeNode parent) {
+        setParent(parent);
+    }
+
+    boolean isRightChildExist() {
         return rightChild != null;
     }
 
-    private boolean isLeftChildExist() {
+    boolean isLeftChildExist() {
         return leftChild != null;
     }
 
@@ -32,7 +39,7 @@ public abstract class BinaryTreeNode {
         return rightChild;
     }
 
-    public void setRightChild(BinaryTreeNode rightChild) {
+    void setRightChild(BinaryTreeNode rightChild) {
         this.rightChild = rightChild;
     }
 
@@ -40,7 +47,7 @@ public abstract class BinaryTreeNode {
         return leftChild;
     }
 
-    public void setLeftChild(BinaryTreeNode leftChild) {
+    void setLeftChild(BinaryTreeNode leftChild) {
         this.leftChild = leftChild;
     }
 
@@ -51,5 +58,21 @@ public abstract class BinaryTreeNode {
     public boolean isBreakPointOwner() {
         return isRightChildExist() && rightChild.isBreakpoint() &&
                 isLeftChildExist() && leftChild.isBreakpoint();
+    }
+
+    BinaryTreeNode getParent() {
+        return parent;
+    }
+
+    void setParent(BinaryTreeNode parent) {
+        this.parent = parent;
+    }
+
+    Event getNodeEvent() {
+        return nodeEvent;
+    }
+
+    void setNodeEvent(Event nodeEvent) {
+        this.nodeEvent = nodeEvent;
     }
 }

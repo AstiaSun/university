@@ -10,6 +10,16 @@ import java.awt.Point;
  */
 public class Breakpoint extends BinaryTreeNode{
     private Point archCrossPoint;
+
+    Breakpoint(){
+        super();
+    }
+
+    Breakpoint(BinaryTreeNode parent) {
+        super();
+        setParent(parent);
+    }
+
     @Override
     public boolean isArch() {
         return false;
