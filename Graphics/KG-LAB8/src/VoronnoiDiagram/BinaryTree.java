@@ -92,6 +92,17 @@ public class BinaryTree {
 
     public ArrayList<Event> update(Point currentSweepLinePosition) {
         ArrayList<Event> circleEvents = new ArrayList<>();
+        for (int i = 0; i < arches.size(); i++) {
+            Arch leftArch = null;
+            Arch rightArch = null;
+            if (i > 0) {
+                leftArch = arches.get(i - 1);
+            }
+            if (i < arches.size() - 1) {
+                rightArch = arches.get(i + 1);
+            }
+            arches.get(i).update(leftArch, rightArch, currentSweepLinePosition.y);
+        }
         return circleEvents;
     }
 

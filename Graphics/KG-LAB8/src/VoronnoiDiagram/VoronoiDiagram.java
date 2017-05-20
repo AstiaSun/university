@@ -10,7 +10,7 @@ import java.util.PriorityQueue;
 public class VoronoiDiagram {
     private ArrayList<Edge> edges;
     private PriorityQueue<Event> events;
-    private BinaryTree front;
+    private BinaryTree beachLine;
 
     public void build(ArrayList<Point> sites) {
         initialize(sites);
@@ -27,7 +27,7 @@ public class VoronoiDiagram {
 
     private void initialize(ArrayList<Point> sites) {
         createEventPriorityQueue(sites);
-        front = new BinaryTree();
+        beachLine = new BinaryTree();
     }
 
     private void createEventPriorityQueue(ArrayList<Point> sites) {
@@ -39,7 +39,7 @@ public class VoronoiDiagram {
     }
 
     private void processSiteEvent(Event event) {
-        front.addArch(event);
+        beachLine.addArch(event);
     }
 
     private void processCircleEvent(Event event) {

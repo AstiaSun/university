@@ -10,11 +10,11 @@ public class Computations {
         return res > 0;
     }
 
-    public static boolean isBetween(int value, int from, int to) {
+    private static boolean isBetween(int value, int from, int to) {
         return ((from <= value) && (value < to)) || ((to <= value) && (value < from));
     }
 
-    public static boolean isPointInsideRectangle(Point point, int x, int y, int width, int height) {
+    private static boolean isPointInsideRectangle(Point point, int x, int y, int width, int height) {
         return isBetween(point.x, x, x + width) && isBetween(point.y, y, y + height);
     }
 
@@ -32,7 +32,7 @@ public class Computations {
         return result;
     }
 
-    public static ArrayList<Point> clone(ArrayList<Point> points) {
+    private static ArrayList<Point> clone(ArrayList<Point> points) {
         ArrayList<Point> result = new ArrayList<>();
         for (Point point :
                 points) {
@@ -59,5 +59,15 @@ public class Computations {
             }
         }
         return false;
+    }
+
+    public static int[] solveQuadraticEquation(double a, double b, double c) {
+        double discriminant = Math.pow(b, 2) - 4 * a * c;
+        if (discriminant < 0)
+            return null;
+        int[] x = new int[2];
+        x[0] = (int) ((-b - Math.sqrt(discriminant)) / (2 * a));
+        x[1] = (int) ((-b + Math.sqrt(discriminant)) / (2 * a));
+        return x;
     }
 }
