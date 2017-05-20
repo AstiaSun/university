@@ -1,5 +1,6 @@
 import VoronnoiDiagram.Arch;
 import VoronnoiDiagram.BinaryTree;
+import VoronnoiDiagram.BinaryTreeNode;
 import VoronnoiDiagram.SiteEvent;
 import junit.framework.TestCase;
 
@@ -25,6 +26,7 @@ public class TestBinaryTree extends TestCase{
     public void testAddArch() {
         addArch();
         assertTrue(areArchesSortedByAbscissa());
+        assertSame(getArchesFromTreeStructure(tree.getRoot(), new ArrayList<>()), tree.getArches());
     }
 
     private void addArch() {
@@ -40,5 +42,14 @@ public class TestBinaryTree extends TestCase{
             }
         }
         return true;
+    }
+
+    private ArrayList<Arch> getArchesFromTreeStructure(BinaryTreeNode node, ArrayList<Arch> previousArches) {
+        if (node.isArch()) {
+            previousArches.add((Arch) node);
+            return previousArches;
+        }
+        previousArches = getArchesFromTreeStructure(node.getLeftChild(), previousArches);
+        return  getArchesFromTreeStructure(node.getRightChild(), previousArches);
     }
 }

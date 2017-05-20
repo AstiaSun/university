@@ -98,4 +98,8 @@ public class BinaryTree {
     public ArrayList<Arch> getArches() {
         return arches;
     }
+
+    public BinaryTreeNode getRoot() {
+        return root;
+    }
 }
