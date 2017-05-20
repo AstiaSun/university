@@ -7,7 +7,8 @@ import java.util.ArrayList;
 import java.util.Random;
 
 /**
- * Drawling and mouse handling implementations
+ * Drawing and mouse handling implementations
+ *
  * Created by anastasia on 4/12/17.
  */
 @SuppressWarnings("ALL")
