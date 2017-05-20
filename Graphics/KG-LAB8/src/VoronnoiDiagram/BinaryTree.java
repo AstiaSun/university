@@ -1,5 +1,7 @@
 package VoronnoiDiagram;
 
+import common.Computations;
+
 import java.awt.*;
 import java.util.ArrayList;
 
@@ -92,13 +94,20 @@ public class BinaryTree {
 
     public ArrayList<Event> update(int currentSweepLineOrdinate) {
         ArrayList<Event> circleEvents = new ArrayList<>();
+        ArrayList<Arch> savedArches = Computations.clone(arches);
         for (int i = 0; i < arches.size(); i++) {
-            updateArch(i, currentSweepLineOrdinate);
+            arches.get(i).setCurrentSweepLine(currentSweepLineOrdinate);
+            updateArch(i);
+        }
+        for (int i = 0; i < arches.size(); i++) {
+            if (isCircleEventDetected(i)) {
+                circleEvents.add(new CircleEvent());
+            }
         }
         return circleEvents;
     }
 
-    private void updateArch(int archIndex, int currentSweepLineOrdinate) {
+    private void updateArch(int archIndex) {
         Arch leftArch = null;
         Arch rightArch = null;
         if (archIndex > 0) {
@@ -107,7 +116,20 @@ public class BinaryTree {
         if (archIndex < arches.size() - 1) {
             rightArch = arches.get(archIndex + 1);
         }
-        arches.get(archIndex).update(leftArch, rightArch, currentSweepLineOrdinate);
+        arches.get(archIndex).update(leftArch, rightArch);
+    }
+
+    private boolean isCircleEventDetected(int archIndex) {
+        Arch leftArch = null;
+        Arch rightArch = null;
+        if (archIndex > 0) {
+            leftArch = arches.get(archIndex - 1);
+            if (archIndex < arches.size() - 1) {
+                rightArch = arches.get(archIndex + 1);
+                //TODO: circle event detection
+            }
+        }
+        return false;
     }
 
     public ArrayList<Arch> getArches() {

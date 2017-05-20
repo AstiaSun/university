@@ -24,8 +24,7 @@ public class Arch extends BinaryTreeNode{
         return false;
     }
 
-    void update(Arch leftArch, Arch rightArch, int sweepLine) {
-        currentSweepLine = sweepLine;
+    void update(Arch leftArch, Arch rightArch) {
         Point[] intersectionsWithLeftArch = findBreakPoints(leftArch);
         Point[] intersectionsWithRightArch = findBreakPoints(rightArch);
         updateBreakPoints(intersectionsWithLeftArch, intersectionsWithRightArch);
@@ -165,5 +164,21 @@ public class Arch extends BinaryTreeNode{
 
     public Point getRightBreakPoint() {
         return rightBreakPoint;
+    }
+
+    void setCurrentSweepLine(int sweepLine) {
+        this.currentSweepLine = sweepLine;
+    }
+
+    @Override
+    public Arch clone() throws CloneNotSupportedException {
+        super.clone();
+        Arch arch = new Arch();
+        arch.setParent(getParent());
+        arch.rightBreakPoint = rightBreakPoint;
+        arch.leftBreakPoint = leftBreakPoint;
+        arch.currentSweepLine = currentSweepLine;
+        arch.setNodeEvent(getNodeEvent());
+        return arch;
     }
 }
