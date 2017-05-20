@@ -40,6 +40,7 @@ public class VoronoiDiagram {
 
     private void processSiteEvent(Event event) {
         beachLine.addArch(event);
+        beachLine.update(event.getSite().y);
     }
 
     private void processCircleEvent(Event event) {
