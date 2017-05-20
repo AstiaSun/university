@@ -8,14 +8,14 @@ import java.awt.Point;
  *
  * Created by anastasia on 5/20/17.
  */
-class SiteEvent extends Event{
-    SiteEvent(Point site) {
+public class SiteEvent extends Event{
+    public SiteEvent(Point site) {
         super();
         this.setSite(site);
     }
 
     @Override
-    boolean isSiteEvent() {
+    public boolean isSiteEvent() {
         return true;
     }
 }

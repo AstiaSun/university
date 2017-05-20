@@ -68,7 +68,7 @@ public abstract class BinaryTreeNode {
         this.parent = parent;
     }
 
-    Event getNodeEvent() {
+    public Event getNodeEvent() {
         return nodeEvent;
     }
 

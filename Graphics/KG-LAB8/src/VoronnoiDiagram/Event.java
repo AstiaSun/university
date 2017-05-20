@@ -7,12 +7,12 @@ import java.awt.*;
  *
  * Created by anastasia on 5/20/17.
  */
-abstract class Event {
+public abstract class Event {
     private Point site;
 
     abstract boolean isSiteEvent();
 
-    Point getSite() {
+    public Point getSite() {
         return site;
     }
 

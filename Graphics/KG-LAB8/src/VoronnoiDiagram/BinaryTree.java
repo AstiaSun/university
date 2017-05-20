@@ -8,16 +8,16 @@ import java.util.ArrayList;
  *
  * Created by anastasia on 5/20/17.
  */
-class BinaryTree {
+public class BinaryTree {
     private BinaryTreeNode root;
     private  ArrayList<Arch> arches;
 
-    BinaryTree() {
+    public BinaryTree() {
         root = new Breakpoint();
         arches = new ArrayList<>();
     }
 
-    void addArch(Event siteEvent) {
+    public void addArch(Event siteEvent) {
         Arch arch = new Arch();
         arch.setNodeEvent(siteEvent);
         if (arches.isEmpty()) {
@@ -90,8 +90,12 @@ class BinaryTree {
         }
     }
 
-    ArrayList<Event> update(Point currentSweepLinePosition) {
+    public ArrayList<Event> update(Point currentSweepLinePosition) {
         ArrayList<Event> circleEvents = new ArrayList<>();
         return circleEvents;
+    }
+
+    public ArrayList<Arch> getArches() {
+        return arches;
     }
 }
