@@ -3,8 +3,6 @@ import common.Computations;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -32,16 +30,6 @@ public class DrawArea extends JComponent{
 
     DrawArea() {
         setDoubleBuffered(false);
-        addMouseListener(new MouseAdapter() {
-            @Override
-            public void mousePressed(MouseEvent e) {
-                if (drawingMode == Mode.ADD_POINT) {
-                   addPoint(e.getPoint());
-                } else {
-                    removePoint(e.getPoint());
-                }
-            }
-        });
     }
 
     void generatePoints(int amount) {
@@ -96,7 +84,6 @@ public class DrawArea extends JComponent{
 
     private void drawPoint(Integer i) {
         graphics2D.fillOval(points.get(i).x - PAINT_RADIUS / 2, points.get(i).y - PAINT_RADIUS / 2, PAINT_RADIUS, PAINT_RADIUS);
-        //graphics2D.drawString(Integer.toString(i), points.get(i).x, points.get(i).y);
         repaint();
     }
 
@@ -116,25 +103,5 @@ public class DrawArea extends JComponent{
         graphics2D.fillRect(0, 0, getWidth(), getHeight());
         graphics2D.setPaint(Color.BLACK);
         repaint();
-    }
-
-    private void addPoint(Point e) {
-        if (!Computations.isPointPresent(e, points, 2 * PAINT_RADIUS)) {
-            points.add(e);
-            drawPoint(points.indexOf(e));
-        }
-    }
-
-    private void removePoint(Point e) {
-        for (int i = 0; i < points.size(); i++) {
-            Point current = points.get(i);
-            if (Computations.isPointInsideRectangle(e, current.x - PAINT_RADIUS, current.y - PAINT_RADIUS,
-                    2 * PAINT_RADIUS, 2 * PAINT_RADIUS)) {
-                points.remove(i);
-                break;
-            }
-        }
-        clear();
-        drawPoints();
     }
 }
