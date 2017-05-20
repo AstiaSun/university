@@ -50,4 +50,14 @@ public class Computations {
         }
         return highest;
     }
+
+    public static boolean isPointPresent(Point e, ArrayList<Point> points, int radius) {
+        for (Point current : points) {
+            if (Computations.isPointInsideRectangle(e, current.x - radius / 2, current.y - radius / 2,
+                    radius, radius)) {
+                return true;
+            }
+        }
+        return false;
+    }
 }

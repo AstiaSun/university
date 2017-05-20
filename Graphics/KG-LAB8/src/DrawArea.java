@@ -1,3 +1,4 @@
+import VoronnoiDiagram.VoronoiDiagram;
 import common.Computations;
 
 import javax.swing.*;
@@ -5,6 +6,7 @@ import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
+import java.util.Random;
 
 /**
  * Drawling and mouse handling implementations
@@ -42,12 +44,25 @@ public class DrawArea extends JComponent{
         });
     }
 
-    void setAddingPointsMode() {
-        drawingMode = Mode.ADD_POINT;
+    void generatePoints(int amount) {
+        Random random = new Random();
+        points = new ArrayList<>(amount);
+        for (int i = 0; i < amount; i++) {
+            int x = random.nextInt(this.getWidth() - 6 * PAINT_RADIUS) + 3 * PAINT_RADIUS;
+            int y = random.nextInt(this.getHeight() - 6 * PAINT_RADIUS) + 3 * PAINT_RADIUS;
+            Point newPoint = new Point(x, y);
+            while (Computations.isPointPresent(newPoint, points, 2 * PAINT_RADIUS)){
+                newPoint = new Point(random.nextInt(this.getWidth()), random.nextInt(this.getHeight()));
+            }
+            points.add(newPoint);
+        }
+        clear();
+        drawPoints();
     }
 
-    void setRemovingPointsMode() {
-        drawingMode = Mode.REMOVE_POINT;
+    public void buildDigram() {
+        VoronoiDiagram diagram = new VoronoiDiagram();
+        diagram.build(points);
     }
 
     void clearData() {
@@ -81,7 +96,7 @@ public class DrawArea extends JComponent{
 
     private void drawPoint(Integer i) {
         graphics2D.fillOval(points.get(i).x - PAINT_RADIUS / 2, points.get(i).y - PAINT_RADIUS / 2, PAINT_RADIUS, PAINT_RADIUS);
-        graphics2D.drawString(Integer.toString(i), points.get(i).x, points.get(i).y);
+        //graphics2D.drawString(Integer.toString(i), points.get(i).x, points.get(i).y);
         repaint();
     }
 
@@ -104,15 +119,10 @@ public class DrawArea extends JComponent{
     }
 
     private void addPoint(Point e) {
-        for (int i = 0; i < points.size(); i++) {
-            Point current = points.get(i);
-            if (Computations.isPointInsideRectangle(e, current.x - PAINT_RADIUS, current.y - PAINT_RADIUS,
-                    2 * PAINT_RADIUS, 2 * PAINT_RADIUS)) {
-                return;
-            }
+        if (!Computations.isPointPresent(e, points, 2 * PAINT_RADIUS)) {
+            points.add(e);
+            drawPoint(points.indexOf(e));
         }
-        points.add(e);
-        drawPoint(points.indexOf(e));
     }
 
     private void removePoint(Point e) {

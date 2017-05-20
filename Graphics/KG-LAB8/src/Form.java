@@ -1,6 +1,7 @@
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionListener;
+import java.util.Objects;
 
 /**
  * Main class which creates UI components
@@ -16,8 +17,9 @@ public class Form {
 
         JPanel controls = new JPanel();
 
-        JButton addPointsButton = new JButton("Add");
-        JButton removePointsButton = new JButton("Remove");
+        JTextField amountOfPoints = new JTextField("100");
+        amountOfPoints.setPreferredSize(new Dimension(50, 25));
+        JButton generatePointsButton = new JButton("Generate");
         JButton clearButton = new JButton("Clear");
         JButton okButton = new JButton("OK");
 
@@ -25,20 +27,19 @@ public class Form {
             if (e.getSource() == clearButton) {
                 drawArea.clearData();
             } else if (e.getSource() == okButton) {
-
-            } else if (e.getSource() == addPointsButton) {
-                drawArea.setAddingPointsMode();
-            } else if (e.getSource() == removePointsButton) {
-                drawArea.setRemovingPointsMode();
+                drawArea.buildDigram();
+            } else if (e.getSource() == generatePointsButton) {
+                if (!Objects.equals(amountOfPoints.getText(), "")) {
+                    drawArea.generatePoints(Integer.parseInt(amountOfPoints.getText()));
+                }
             }
         };
 
-        addPointsButton.addActionListener(actionListener);
-        removePointsButton.addActionListener(actionListener);
+        generatePointsButton.addActionListener(actionListener);
         clearButton.addActionListener(actionListener);
         okButton.addActionListener(actionListener);
-        controls.add(addPointsButton);
-        controls.add(removePointsButton);
+        controls.add(amountOfPoints);
+        controls.add(generatePointsButton);
         controls.add(clearButton);
         controls.add(okButton);
         content.add(controls, BorderLayout.NORTH);
