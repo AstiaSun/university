@@ -20,7 +20,7 @@ public class DrawArea extends JComponent{
     private Image image;
     private Graphics2D graphics2D;
 
-    private final int PAINT_RADIUS = 10;
+    private final int PAINT_RADIUS = 7;
 
     private enum Mode {
             ADD_POINT, REMOVE_POINT
@@ -40,7 +40,7 @@ public class DrawArea extends JComponent{
             int x = random.nextInt(this.getWidth() - 6 * PAINT_RADIUS) + 3 * PAINT_RADIUS;
             int y = random.nextInt(this.getHeight() - 6 * PAINT_RADIUS) + 3 * PAINT_RADIUS;
             Point newPoint = new Point(x, y);
-            while (Computations.isPointPresent(newPoint, points, 2 * PAINT_RADIUS)){
+            while (Computations.isPointPresent(newPoint, points, 4 * PAINT_RADIUS)){
                 newPoint = new Point(random.nextInt(this.getWidth()), random.nextInt(this.getHeight()));
             }
             points.add(newPoint);
@@ -84,7 +84,8 @@ public class DrawArea extends JComponent{
     }
 
     private void drawPoint(Integer i) {
-        graphics2D.fillOval(points.get(i).x - PAINT_RADIUS / 2, points.get(i).y - PAINT_RADIUS / 2, PAINT_RADIUS, PAINT_RADIUS);
+        graphics2D.fillOval(points.get(i).x - PAINT_RADIUS / 2,
+                points.get(i).y - PAINT_RADIUS / 2, PAINT_RADIUS, PAINT_RADIUS);
         repaint();
     }
 
