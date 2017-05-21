@@ -19,6 +19,7 @@ public class DeloneTriangulation {
     private final double MAX_VALUE = 100000.0;
 
     public ArrayList<Polygon> triangulate(ArrayList<Point> points) {
+        // TODO: fix problem with unlimited loop in frontier
         if (points.size() < 3)
             return null;
         triangles = new ArrayList<>(points.size() / 3);
