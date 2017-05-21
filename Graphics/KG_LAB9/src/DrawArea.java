@@ -1,4 +1,6 @@
-import common.Computations;
+import DeloneTriangulation.DeloneTriangulation;
+import common.*;
+import common.Polygon;
 
 import javax.swing.*;
 import java.awt.*;
@@ -42,8 +44,13 @@ public class DrawArea extends JComponent{
         drawPoints();
     }
 
-    public void triangulate() {
-
+    void triangulate() {
+        DeloneTriangulation triangulation = new DeloneTriangulation();
+        ArrayList<Polygon> polygons = triangulation.triangulate(points);
+        clear();
+        for (Polygon polygon : polygons) {
+            drawTriangle(polygon);
+        }
     }
 
     void clearData() {
@@ -88,6 +95,13 @@ public class DrawArea extends JComponent{
     private void drawPoints() {
         for (int i = 0; i < points.size(); i++) {
             drawPoint(i);
+        }
+    }
+
+    private void drawTriangle(Polygon triangle) {
+        for (int i = 0; i < 3; i++) {
+            drawPoint(i);
+            drawLine(triangle.getVertex(i), triangle.getVertex((i + 1) % 3));
         }
     }
 
