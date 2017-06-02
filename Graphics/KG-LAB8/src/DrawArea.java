@@ -1,5 +1,6 @@
-import VoronnoiDiagram.VoronoiDiagram;
+import VoronoiDiagram.Voronoi;
 import common.Computations;
+import common.Edge;
 
 import javax.swing.*;
 import java.awt.*;
@@ -50,8 +51,9 @@ public class DrawArea extends JComponent{
     }
 
     public void buildDigram() {
-        VoronoiDiagram diagram = new VoronoiDiagram();
-        diagram.build(points);
+        Voronoi diagram = new Voronoi(points);
+        ArrayList<Edge> diagramEdges = diagram.getEdges();
+        drawEdges(diagramEdges);
     }
 
     void clearData() {
@@ -97,6 +99,12 @@ public class DrawArea extends JComponent{
     private void drawPoints() {
         for (int i = 0; i < points.size(); i++) {
             drawPoint(i);
+        }
+    }
+
+    private void drawEdges(ArrayList<Edge> edges) {
+        for (Edge edge : edges) {
+            drawLine(edge.getFrom(), edge.getTo());
         }
     }
 

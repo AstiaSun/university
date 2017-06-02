@@ -11,6 +11,13 @@ public class Edge {
     private Point from;
     private Point to;
 
+    public Edge() {}
+
+    public Edge(Point from, Point to) {
+        setFrom(from);
+        setTo(to);
+    }
+
     public Point getFrom() {
         return from;
     }

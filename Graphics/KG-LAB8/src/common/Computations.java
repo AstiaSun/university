@@ -1,6 +1,5 @@
 package common;
 
-import VoronnoiDiagram.Arch;
 
 import java.awt.*;
 import java.util.ArrayList;
@@ -18,18 +17,6 @@ public class Computations {
 
     private static boolean isPointInsideRectangle(Point point, int x, int y, int width, int height) {
         return isBetween(point.x, x, x + width) && isBetween(point.y, y, y + height);
-    }
-
-    public static ArrayList<Arch> clone(ArrayList<Arch> points) {
-        ArrayList<Arch> result = new ArrayList<>();
-        for (Arch point : points) {
-            try {
-                result.add(point.clone());
-            } catch (CloneNotSupportedException e) {
-                e.printStackTrace();
-            }
-        }
-        return result;
     }
 
     public static Point findTheHighestPoint(ArrayList<Point> points) {
