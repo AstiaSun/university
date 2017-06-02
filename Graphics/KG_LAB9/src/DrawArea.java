@@ -12,7 +12,7 @@ import java.util.Random;
  *
  * Created by anastasia on 4/12/17.
  */
-public class DrawArea extends JComponent{
+class DrawArea extends JComponent{
     //.............................................VARIABLES..........................................................//
 
     private ArrayList<Point> points;
@@ -51,11 +51,18 @@ public class DrawArea extends JComponent{
         for (Polygon polygon : polygons) {
             drawTriangle(polygon);
         }
+        drawPoints();
     }
 
     void clearData() {
         clear();
         initialize();
+    }
+
+    public void save() {
+        for (Point point : points) {
+            System.out.println(point);
+        }
     }
 
     //.............................................PRIVATE..METHODS...................................................//
@@ -82,9 +89,7 @@ public class DrawArea extends JComponent{
     }
 
     private void drawPoint(Integer i) {
-        graphics2D.fillOval(points.get(i).x - PAINT_RADIUS / 2,
-                points.get(i).y - PAINT_RADIUS / 2, PAINT_RADIUS, PAINT_RADIUS);
-        repaint();
+        drawPoint(points.get(i));
     }
 
     private void drawLine(Point from, Point to) {

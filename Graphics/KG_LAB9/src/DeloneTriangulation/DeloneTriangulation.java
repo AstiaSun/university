@@ -15,14 +15,11 @@ import java.util.PriorityQueue;
  * Created by anastasia on 5/21/17.
  */
 public class DeloneTriangulation {
-    private ArrayList<Polygon> triangles;
-    private final double MAX_VALUE = 100000.0;
 
     public ArrayList<Polygon> triangulate(ArrayList<Point> points) {
-        // TODO: fix problem with unlimited loop in frontier
         if (points.size() < 3)
             return null;
-        triangles = new ArrayList<>(points.size() / 3);
+        ArrayList<Polygon> triangles = new ArrayList<>(points.size() / 3);
         Edge edge = findEdgeFromConvexHull(points);
         PriorityQueue<Edge> frontier = new PriorityQueue<>(points.size(), new EdgeComparator());
         frontier.add(edge);
@@ -38,8 +35,8 @@ public class DeloneTriangulation {
         Edge currentEdge = frontier.poll();
         Point mate = findMate(currentEdge, points);
         if (mate != null) {
-            updateFrontier(frontier, new Edge(mate, currentEdge.getFrom()));
-            updateFrontier(frontier, new Edge(currentEdge.getTo(), mate));
+            updateFrontier(frontier, new Edge(currentEdge.getFrom(), mate));
+            updateFrontier(frontier, new Edge(mate, currentEdge.getTo()));
             return Computations.createTriangle(currentEdge.getFrom(), currentEdge.getTo(), mate);
         }
         return null;
@@ -51,14 +48,16 @@ public class DeloneTriangulation {
         edge.setFrom(Computations.findTheHighestPoint(pointsFromConvexHull));
         for (int i = 0; i < pointsFromConvexHull.size(); i++) {
             int j = 0;
+            if (edge.getFrom() == pointsFromConvexHull.get(i))
+                continue;
+            Edge vectorA = new Edge(edge.getFrom(), pointsFromConvexHull.get(i));
             for (; j < pointsFromConvexHull.size(); j++) {
-                Point vectorA = Computations.createVector(edge.getFrom(), pointsFromConvexHull.get(i));
-                Point vectorB = Computations.createVector(edge.getFrom(), pointsFromConvexHull.get(j));
-                if (Computations.isOnTheLeftSide(vectorA, vectorB)) {
+                if ((pointsFromConvexHull.get(j) != vectorA.getFrom()) && (pointsFromConvexHull.get(j) != vectorA.getTo())
+                        && !isOnTheRightSide(vectorA, pointsFromConvexHull.get(j))) {
                     break;
                 }
             }
-            if ((j == pointsFromConvexHull.size()) && (edge.getFrom() != pointsFromConvexHull.get(i))) {
+            if (j == pointsFromConvexHull.size()) {
                 edge.setTo(pointsFromConvexHull.get(i));
                 break;
             }
@@ -69,44 +68,37 @@ public class DeloneTriangulation {
 
     private Point findMate (Edge currentEdge, ArrayList<Point> points) {
         Point bestMate = null;
-        double  currentBestRadius = MAX_VALUE;
-        Edge perpendicularToCurrentEdge = currentEdge.rotate();
         for (Point point : points)
-            if (Computations.classify(point, currentEdge) == Computations.POSITION.RIGHT) {
-                Edge anotherEdge = new Edge(currentEdge.getTo(), point);
-                Edge perpendicularToAnotherEdge = anotherEdge.rotate();
-                //Polygon triangle = Computations.createTriangle(currentEdge.getFrom(), currentEdge.getTo(), points.get(i));
-                //double radius = Computations.findRadiusOfCircle(triangle);
-                double radius = getRadius(perpendicularToCurrentEdge, perpendicularToAnotherEdge);
-                if (radius < currentBestRadius) {
+            if (isOnTheRightSide(currentEdge, point)) {
+                Polygon triangle = Computations.createTriangle(currentEdge.getFrom(), currentEdge.getTo(), point);
+                if ((!Computations.isPointInsideCircle(bestMate, triangle))) {
                     bestMate = point;
-                    currentBestRadius = radius;
                 }
             }
         return bestMate;
     }
 
-    private double getRadius(Edge firstPerpendicular, Edge secondPerpendicular) {
-        Computations.IntersectionResult result = Computations.intersect(firstPerpendicular, secondPerpendicular);
-        if (result.getLinePosition() == Computations.LINE_POSITION.SKEW) {
-            return result.getParameter();
-        }
-        return MAX_VALUE;
-    }
-
     private boolean isOnTheRightSide(Edge edge, Point point) {
+        if ((edge.getFrom() == point) || (edge.getTo() == point))
+            return false;
         Point vectorA = Computations.createVector(edge.getFrom(), edge.getTo());
         Point vectorB = Computations.createVector(edge.getFrom(), point);
-        return !Computations.isOnTheLeftSide(vectorA, vectorB);
+        return (vectorA.getX() * vectorB.getY() - vectorA.getY() * vectorB.getX()) > 0;
     }
 
     private void updateFrontier (PriorityQueue<Edge> frontier, Edge ab)
     {
-        if (frontier.contains(ab))
+        if (frontier.contains(ab)) {
             frontier.remove(ab);
+        }
         else {
             ab.flip();
-            frontier.add(ab);
+            if (frontier.contains(ab)) {
+                frontier.remove(ab);
+            } else {
+                ab.flip();
+                frontier.add(ab);
+            }
         }
     }
 

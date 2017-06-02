@@ -10,9 +10,9 @@ import java.util.ArrayList;
  * Created by anastasia on 5/21/17.
  */
 public class Polygon {
-    private ArrayList<Point> points;
+    private final ArrayList<Point> points;
 
-    Polygon() {
+    public Polygon() {
         points = new ArrayList<>(3);
     }
 
@@ -20,7 +20,7 @@ public class Polygon {
         return points.get(i);
     }
 
-    void addVertex(Point point) {
+    public void addVertex(Point point) {
         points.add(point);
     }
 }

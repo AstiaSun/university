@@ -92,7 +92,7 @@ public class PolygonConvexHull {
                 } else {
                     while (!isSecondRulePassed(previousVertex, currentConvexHullVertex, next) && (i < points.size())) {
                         points.remove(next);
-                        next = points.get(i);
+                        next = points.get(Math.min(i, points.size() - 1));
                     }
                 }
             } else {
