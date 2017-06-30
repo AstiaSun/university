@@ -1,0 +1,18 @@
+# Created by .ignore support plugin (hsz.mobi)
+### Maven template
+target/
+.idea/**/workspace.xml
+
+# Sensitive or high-churn files:
+.idea/**/dataSources/
+.idea/**/dataSources.xml
+.idea/**/dataSources.local.xml
+.idea/**/uiDesigner.xml
+
+# Gradle:
+.idea/**/libraries
+
+### Java template
+# Compiled class file
+*.class
+tomcat.8080/
