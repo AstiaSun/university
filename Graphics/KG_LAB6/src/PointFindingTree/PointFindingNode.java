@@ -3,33 +3,37 @@ package PointFindingTree;
 import java.awt.*;
 import java.util.ArrayList;
 
-/**
- * Created by anastasia on 4/12/17.
- */
+
 class PointFindingNode {
     private ArrayList<Point> bHull;
+    private ArrayList<Point> pointsRemoved;
     private int height;
+    private int id;
     private PointFindingNode parent;
     private PointFindingNode leftChild;
     private PointFindingNode rightChild;
 
-    public PointFindingNode (PointFindingNode parent) {
+    PointFindingNode(PointFindingNode parent) {
         this.parent = parent;
         if (parent != null)
             this.height = parent.height + 1;
         else
             this.height = 0;
+        leftChild = null;
+        rightChild = null;
+        bHull = new ArrayList<>();
+        pointsRemoved = new ArrayList<>();
     }
 
-    public PointFindingNode getLeftChild() {
+    PointFindingNode getLeftChild() {
         return leftChild;
     }
 
-    public PointFindingNode getRightChild() {
+    PointFindingNode getRightChild() {
         return rightChild;
     }
 
-    public PointFindingNode getParent() {
+    PointFindingNode getParent() {
         return parent;
     }
 
@@ -39,21 +43,39 @@ class PointFindingNode {
         return parent.getParent();
     }
 
-    public boolean isLeaf() {
-        if (bHull.size() == 1)
-            return true;
-        return false;
+    boolean isLeaf() {
+        return (leftChild == null) && (rightChild == null);
     }
 
-    public void setLeftChild(Point point) {
-        leftChild = new PointFindingNode(this);
+    void setLeftChild(PointFindingNode node) {
+        leftChild = node;
     }
 
-    public void setRightChild(Point point) {
-        rightChild = new PointFindingNode(this);
+    void setRightChild(PointFindingNode node) {
+        rightChild = node;
     }
 
-    public void addPoint(Point p) {
-        bHull.add(p);
+    ArrayList<Point> getbHull() {
+        return bHull;
+    }
+
+    void setbHull(ArrayList<Point> points) {
+        bHull = points;
+    }
+
+    public ArrayList<Point> getPointsRemoved() {
+        return pointsRemoved;
+    }
+
+    public void setPointsRemoved(ArrayList<Point> pointsRemoved) {
+        this.pointsRemoved = pointsRemoved;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 }

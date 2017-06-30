@@ -1,5 +1,5 @@
-import PointFindingTree.PointFindingTree;
-import common.Computations;
+import common.*;
+import common.Polygon;
 
 import javax.swing.*;
 import java.awt.*;
@@ -17,7 +17,7 @@ public class DrawArea extends JComponent{
 
     private ArrayList<Point> points;
     private ArrayList<Point> convexHull;
-    private PointFindingTree tree;
+    private common.Polygon polygon;
 
     private Image image;
     private Graphics2D graphics2D;
@@ -25,7 +25,7 @@ public class DrawArea extends JComponent{
     private final int PAINT_RADIUS = 10;
 
     private enum Mode {
-            ADD_POINT, REMOVE_POINT
+            ADD_POINT, REMOVE_POINT, NONE
     }
     private Mode drawingMode;
 
@@ -38,7 +38,7 @@ public class DrawArea extends JComponent{
             public void mousePressed(MouseEvent e) {
                 if (drawingMode == Mode.ADD_POINT) {
                    addPoint(e.getPoint());
-                } else {
+                } else if (drawingMode == Mode.REMOVE_POINT) {
                     removePoint(e.getPoint());
                 }
             }
@@ -70,10 +70,10 @@ public class DrawArea extends JComponent{
             return;
         }
 
-        buildTree(points);
-        convexHull = tree.getConvexHull();
-        clear();
-        tree.drawTree(graphics2D);
+        PolygonConvexHull polygonConvexHull = new PolygonConvexHull();
+        polygonConvexHull.setPolygon(polygon);
+        polygonConvexHull.compute();
+        convexHull = polygonConvexHull.getConvexHull();
         drawConvexHull();
     }
 
@@ -94,7 +94,6 @@ public class DrawArea extends JComponent{
         points = new ArrayList<>();
         graphics2D.setPaint(Color.black);
         drawingMode = Mode.ADD_POINT;
-        tree = new PointFindingTree();
     }
 
     private void drawPoint(Point e) {
@@ -116,19 +115,29 @@ public class DrawArea extends JComponent{
     private void drawPoints() {
         for (int i = 0; i < points.size(); i++) {
             drawPoint(i);
+            if (i + 1 < points.size())
+                drawLine(points.get(i), points.get(i + 1));
         }
     }
 
     private void drawConvexHull() {
-        drawPoints();
+        clear();
+        drawPolygon();
         graphics2D.setPaint(Color.GREEN);
-        for (int i = 0; i < convexHull.size() - 1; i++) {
+        for (int i = 0; i < convexHull.size(); i++) {
             drawPoint(convexHull.get(i));
             drawLine(convexHull.get(i), convexHull.get((i + 1) % convexHull.size()));
         }
-        drawPoint(convexHull.get(convexHull.size() - 1));
         graphics2D.setPaint(Color.BLACK);
         repaint();
+    }
+
+    private void drawPolygon() {
+        clear();
+        for (int i = 0; i < polygon.getPoints().size(); i++) {
+            drawPoint(i);
+            drawLine(polygon.getPoints().get(i), polygon.getPoints().get((i + 1) % polygon.getPoints().size()));
+        }
     }
 
     private void clear() {
@@ -143,11 +152,18 @@ public class DrawArea extends JComponent{
             Point current = points.get(i);
             if (Computations.isPointInsideRectangle(e, current.x - PAINT_RADIUS, current.y - PAINT_RADIUS,
                     2 * PAINT_RADIUS, 2 * PAINT_RADIUS)) {
+                if (i == 0) {
+                    polygon = new Polygon();
+                    polygon.setPoints(points);
+                    drawingMode = Mode.NONE;
+                    drawPolygon();
+                }
                 return;
             }
         }
         points.add(e);
-        drawPoint(points.indexOf(e));
+        clear();
+        drawPoints();
     }
 
     private void removePoint(Point e) {
@@ -161,10 +177,5 @@ public class DrawArea extends JComponent{
         }
         clear();
         drawPoints();
-    }
-
-    private void buildTree(ArrayList<Point> points) {
-        tree = new PointFindingTree();
-        tree.build(points);
     }
 }

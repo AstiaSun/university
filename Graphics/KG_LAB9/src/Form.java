@@ -1,12 +1,13 @@
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionListener;
+import java.util.Objects;
 
 /**
  * Main class which creates UI components
  * Created by anastasia on 4/12/17.
  */
-public class Form {
+class Form {
     public static void main(String[] args) {
         JFrame frame = new JFrame();
         Container content = frame.getContentPane();
@@ -16,34 +17,39 @@ public class Form {
 
         JPanel controls = new JPanel();
 
-        JButton addPointsButton = new JButton("Add");
-        JButton removePointsButton = new JButton("Remove");
+        JTextField amountOfPoints = new JTextField("100");
+        amountOfPoints.setPreferredSize(new Dimension(50, 25));
+        JButton generatePointsButton = new JButton("Generate");
         JButton clearButton = new JButton("Clear");
         JButton okButton = new JButton("OK");
+        JButton saveButton = new JButton("Save");
 
         ActionListener actionListener = e -> {
             if (e.getSource() == clearButton) {
                 drawArea.clearData();
             } else if (e.getSource() == okButton) {
-                drawArea.createConvexHull();
-            } else if (e.getSource() == addPointsButton) {
-                drawArea.setAddingPointsMode();
-            } else if (e.getSource() == removePointsButton) {
-                drawArea.setRemovingPointsMode();
+                drawArea.triangulate();
+            } else if (e.getSource() == generatePointsButton) {
+                if (!Objects.equals(amountOfPoints.getText(), "")) {
+                    drawArea.generatePoints(Integer.parseInt(amountOfPoints.getText()));
+                }
+            } else if (e.getSource() == saveButton) {
+                drawArea.save();
             }
         };
 
-        addPointsButton.addActionListener(actionListener);
-        removePointsButton.addActionListener(actionListener);
+        generatePointsButton.addActionListener(actionListener);
         clearButton.addActionListener(actionListener);
         okButton.addActionListener(actionListener);
-        controls.add(addPointsButton);
-        controls.add(removePointsButton);
+        saveButton.addActionListener(actionListener);
+        controls.add(amountOfPoints);
+        controls.add(generatePointsButton);
         controls.add(clearButton);
         controls.add(okButton);
+        controls.add(saveButton);
         content.add(controls, BorderLayout.NORTH);
 
-        frame.setSize(800, 600);
+        frame.setSize(1200, 900);
         frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         frame.setVisible(true);
     }
